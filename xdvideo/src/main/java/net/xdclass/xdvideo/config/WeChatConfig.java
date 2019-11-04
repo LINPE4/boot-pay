@@ -60,7 +60,7 @@ public class WeChatConfig {
     /**
      * 获取用户信息
      */
-    private final static String OPEN_USER_INFO_URL ="https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
+    private final static String OPEN_USER_INFO_URL ="https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN";
 
     public static String getOpenUserInfoUrl() {
         return OPEN_USER_INFO_URL;
