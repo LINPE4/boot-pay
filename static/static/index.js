@@ -1,5 +1,22 @@
 
-var host = "http://localhost:8081"
+var host = "http://127.0.0.1:8081"
+var global_login_url = ""  //全局扫描登录
+
+//下单
+function save_order(id){
+	var token =$.cookie("token");
+	if(!token || token == ""){
+		//去登录
+		window.location.href=global_login_url;
+
+	}
+	//下单接口
+	var url = host+"/user/api/v1/order/add?token="+token + "&video_id="+id;
+	$("#pay_img").attr("src",url);
+
+}
+
+
 $(function(){
 
 
@@ -39,6 +56,7 @@ $(function(){
 				success:function(res){
 						//console.info(res.data)
 						$("#login").attr("href",res.data);
+						global_login_url = res.data;
 				}
 		})
 
@@ -65,7 +83,9 @@ $(function(){
 	//设置头像和昵称
 	function set_user_info(){
 		var user_info = get_params();
-		
+		var head_img  = $.cookie('head_img')
+		var name = $.cookie('name')
+
 		if(JSON.stringify(user_info) != '{}'){
 			//对象不为空
 			var name = user_info['name'];
@@ -77,9 +97,13 @@ $(function(){
 			$("#login").html(name)
 			$("#head_img").attr("src",head_img);
 			$.cookie('token',token,{expires:7,path:'/'})
+			$.cookie('head_img',head_img,{expires:7,path:'/'})
+			$.cookie('name',name,{expires:7,path:'/'})
 
-		}else{
-
+		} else if(name && name != ""){
+			
+				$("#login").html(name)
+				$("#head_img").attr("src",head_img);
 		}
 
 	}
